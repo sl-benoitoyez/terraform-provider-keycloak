@@ -30,6 +30,11 @@ func resourceKeycloakGroupMemberships() *schema.Resource {
 				Set:      schema.HashString,
 				Required: true,
 			},
+			"pagination": {
+				Optional: true,
+				Type:     schema.TypeInt,
+				Default:  -1,
+			},
 		},
 	}
 }
@@ -61,8 +66,9 @@ func resourceKeycloakGroupMembershipsRead(data *schema.ResourceData, meta interf
 
 	realmId := data.Get("realm_id").(string)
 	groupId := data.Get("group_id").(string)
+	pagination := data.Get("pagination").(int)
 
-	usersInGroup, err := keycloakClient.GetGroupMembers(realmId, groupId)
+	usersInGroup, err := keycloakClient.GetGroupMembers(realmId, groupId, pagination)
 	if err != nil {
 		return handleNotFoundError(err, data)
 	}
@@ -83,6 +89,7 @@ func resourceKeycloakGroupMembershipsUpdate(data *schema.ResourceData, meta inte
 
 	realmId := data.Get("realm_id").(string)
 	groupId := data.Get("group_id").(string)
+	pagination := data.Get("pagination").(int)
 	tfMembers := data.Get("members").(*schema.Set)
 
 	err := keycloakClient.ValidateGroupMembers(tfMembers.List())
@@ -90,7 +97,7 @@ func resourceKeycloakGroupMembershipsUpdate(data *schema.ResourceData, meta inte
 		return err
 	}
 
-	keycloakMembers, err := keycloakClient.GetGroupMembers(realmId, groupId)
+	keycloakMembers, err := keycloakClient.GetGroupMembers(realmId, groupId, pagination)
 	if err != nil {
 		return err
 	}

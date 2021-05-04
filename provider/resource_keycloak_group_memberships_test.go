@@ -344,7 +344,7 @@ func testAccGetUsersInGroupFromGroupMembershipsState(resourceName string, s *ter
 		groupId = rs.Primary.ID
 	}
 
-	return keycloakClient.GetGroupMembers(realmId, groupId)
+	return keycloakClient.GetGroupMembers(realmId, groupId, 20)
 }
 
 func testAccCheckUserBelongsToGroup(resourceName, user string) resource.TestCheckFunc {
