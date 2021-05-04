@@ -51,6 +51,7 @@ resource "keycloak_group_memberships" "group_members" {
 - `realm_id` - (Required) The realm this group exists in.
 - `group_id` - (Required) The ID of the group this resource should manage memberships for.
 - `members` - (Required) A list of usernames that belong to this group.
+- `pagination` - (Optional) An integer value to limit the number of members retrieved in one API call when refreshing the list, lower the value if the Keycloak backend has limited resources, -1 to retrieve all in one go. Defaults to -1.
 
 ## Import
 

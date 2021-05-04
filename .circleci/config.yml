@@ -74,4 +74,4 @@ jobs:
       TEST_RESULTS: /tmp/test-results
       CHECKPOINT_DISABLE: "1"
       TF_ACC_TERRAFORM_PATH: "/usr/local/bin/terraform"
-      TF_VERSION: "0.13.5"
+      TF_VERSION: "0.13.7"
