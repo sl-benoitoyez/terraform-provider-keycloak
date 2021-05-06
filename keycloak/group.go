@@ -205,12 +205,13 @@ func (keycloakClient *KeycloakClient) ListGroupsWithName(realmId, name string) (
 	return groups, nil
 }
 
-func (keycloakClient *KeycloakClient) GetGroupMembers(realmId, groupId string, pagination int) ([]*User, error) {
+func (keycloakClient *KeycloakClient) GetGroupMembers(realmId, groupId string) ([]*User, error) {
 	var users []*User
-	var first int = 0
+	var first, pagination int = 0, 50
 	var iterationUsers []*User
 
-	for ok := true; ok; ok = (len(iterationUsers) > 0 && pagination != -1) {
+	for ok := true; ok; ok = (len(iterationUsers) > 0) {
+		iterationUsers = nil
 		err := keycloakClient.get(fmt.Sprintf("/realms/%s/groups/%s/members?max=%d&first=%d", realmId, groupId, pagination, first), &iterationUsers, nil)
 		if err != nil {
 			return nil, err
